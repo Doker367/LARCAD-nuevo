@@ -32,7 +32,11 @@ export const theme = {
             normal: `0 0 5px ${color}, 0 0 10px ${color}, 0 0 20px ${color}`,
             strong: `0 0 5px ${color}, 0 0 10px ${color}, 0 0 20px ${color}, 0 0 40px ${color}`,
         };
-        return glowMap[intensity] || glowMap.normal;
+        if (Object.prototype.hasOwnProperty.call(glowMap, intensity)) {
+            // eslint-disable-next-line security/detect-object-injection
+            return glowMap[intensity];
+        }
+        return glowMap.normal;
     },
 
     // Transiciones suaves

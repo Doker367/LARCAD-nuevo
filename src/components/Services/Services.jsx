@@ -17,48 +17,6 @@ const Services = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-    const services = [
-        {
-            icon: <FaServer />,
-            title: 'Colocación Segura',
-            description: 'Housing de equipos en instalaciones con videovigilancia y ambiente controlado 24/7.',
-        },
-        {
-            icon: <FaCloud />,
-            title: 'Hospedaje de Sistemas',
-            description: 'Hosting profesional con alta disponibilidad y redundancia garantizada.',
-        },
-        {
-            icon: <FaNetworkWired />,
-            title: 'Virtualización VMware',
-            description: 'Infraestructura virtualizada escalable con tecnología VMware de clase empresarial.',
-        },
-        {
-            icon: <FaShieldAlt />,
-            title: 'Seguridad Informática',
-            description: 'Firewall avanzado, protección perimetral y monitoreo constante de amenazas.',
-        },
-        {
-            icon: <FaDatabase />,
-            title: 'Almacenamiento Híbrido',
-            description: 'Soluciones NFS/SAN con respaldo administrado y almacenamiento en la nube.',
-        },
-        {
-            icon: <FaCogs />,
-            title: 'Simulaciones HPC',
-            description: 'Cómputo de alto rendimiento para modelado científico y cálculos complejos.',
-        },
-        {
-            icon: <FaNetworkWired />,
-            title: 'Telecomunicaciones',
-            description: 'DNS, fibra óptica, enlaces redundantes y conectividad de alta velocidad.',
-        },
-        {
-            icon: <FaCogs />,
-            title: 'Capacitación',
-            description: 'Cursos especializados en bases de datos, switches, ciberseguridad y desarrollo web.',
-        },
-    ];
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {

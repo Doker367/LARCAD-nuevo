@@ -32,17 +32,6 @@ const infoBlockStyle = {
     border: '1.5px solid rgba(222,244,64,0.13)',
     backdropFilter: 'blur(6px)',
 };
-const infoTitleStyle = {
-    fontSize: '1.45rem',
-    color: '#def440',
-    display: 'block',
-    marginBottom: '1.2rem',
-    textAlign: 'center',
-    letterSpacing: '1.5px',
-    fontWeight: 800,
-    textShadow: '0 2px 16px #222, 0 0 8px #def44088',
-    textTransform: 'uppercase',
-};
 
 const About = () => {
         // Estilos para la sección informativa final

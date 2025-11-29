@@ -9,18 +9,20 @@ const AnimatedParticles = () => {
     const particleCount = 2000;
 
     // Generate random positions for particles
-    const particlesPosition = React.useMemo(() => {
+    const [particlesPosition] = React.useState(() => {
         const positions = new Float32Array(particleCount * 3);
 
+        /* eslint-disable security/detect-object-injection */
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
             positions[i3] = (Math.random() - 0.5) * 10;
             positions[i3 + 1] = (Math.random() - 0.5) * 10;
             positions[i3 + 2] = (Math.random() - 0.5) * 10;
         }
+        /* eslint-enable security/detect-object-injection */
 
         return positions;
-    }, []);
+    });
 
     // Animation loop
     useFrame((state) => {

@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React from 'react';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Box, Line, RoundedBox } from '@react-three/drei';
 
 
@@ -10,8 +10,6 @@ const ServerRack = ({ position = [0, 0, 0], units = 8 }) => {
     const unitHeight = rackHeight / units;
     const width = 1.1;
     const depth = 0.7;
-    const colorBase = '#2a3442';
-    const colorFront = '#3a4a5e';
     const colorLine = '#def440';
     const colorPanel = '#1e2633';
     const colorPanelAlt = '#2d3848';

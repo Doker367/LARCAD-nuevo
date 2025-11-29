@@ -9,8 +9,6 @@ import {
   LocationText,
 } from './Contact.styles';
 
-
-
 const formStyles = {
   background: 'rgba(255,255,255,0.04)',
   borderRadius: '18px',
@@ -65,21 +63,58 @@ const buttonStyles = {
   display: 'flex',
   alignItems: 'center',
   gap: '0.7rem',
+  opacity: 1,
+  transition: 'opacity 0.3s ease',
+};
+
+const disabledButtonStyles = {
+  ...buttonStyles,
+  opacity: 0.6,
+  cursor: 'not-allowed',
 };
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ nombre: '', correo: '', mensaje: '' });
+  const [status, setStatus] = useState('idle'); // 'idle', 'sending', 'sent', 'error'
 
   const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    setSent(true);
-    setForm({ name: '', email: '', message: '' });
-    setTimeout(() => setSent(false), 3500);
+    if (status === 'sending') return;
+
+    setStatus('sending');
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error('La respuesta del servidor no fue exitosa.');
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('sent');
+        setForm({ nombre: '', correo: '', mensaje: '' });
+        setTimeout(() => setStatus('idle'), 4000);
+      } else {
+        throw new Error(result.message || 'Ocurrió un error al enviar el correo.');
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -88,50 +123,61 @@ const Contact = () => {
         <SectionTitle>Contáctanos</SectionTitle>
         <div style={{ width: '100%' }}>
           <form style={formStyles} onSubmit={handleSubmit} autoComplete="off">
-            <label style={labelStyles} htmlFor="name">
+            <label style={labelStyles} htmlFor="nombre">
               <FaUniversity style={{ color: '#def440' }} /> Nombre
             </label>
             <input
               style={inputStyles}
               type="text"
-              id="name"
-              name="name"
-              value={form.name}
+              id="nombre"
+              name="nombre"
+              value={form.nombre}
               onChange={handleChange}
               required
               placeholder="Tu nombre completo"
             />
-            <label style={labelStyles} htmlFor="email">
+            <label style={labelStyles} htmlFor="correo">
               <FaEnvelope style={{ color: '#def440' }} /> Email
             </label>
             <input
               style={inputStyles}
               type="email"
-              id="email"
-              name="email"
-              value={form.email}
+              id="correo"
+              name="correo"
+              value={form.correo}
               onChange={handleChange}
               required
               placeholder="tu@email.com"
             />
-            <label style={labelStyles} htmlFor="message">
+            <label style={labelStyles} htmlFor="mensaje">
               Mensaje
             </label>
             <textarea
               style={textareaStyles}
-              id="message"
-              name="message"
-              value={form.message}
+              id="mensaje"
+              name="mensaje"
+              value={form.mensaje}
               onChange={handleChange}
               required
               placeholder="Cuéntanos sobre tu proyecto..."
             />
-            <button type="submit" style={buttonStyles}>
-              <FaEnvelope /> Enviar Mensaje
+            <button
+              type="submit"
+              style={status === 'sending' ? disabledButtonStyles : buttonStyles}
+              disabled={status === 'sending'}
+            >
+              <FaEnvelope />
+              {status === 'sending' ? 'Enviando...' : 'Enviar Mensaje'}
             </button>
-            {sent && (
+            
+            {status === 'sent' && (
               <div style={{ color: '#def440', marginTop: 12, fontWeight: 600 }}>
-                ¡Mensaje enviado con éxito!
+                ¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.
+              </div>
+            )}
+            {status === 'error' && (
+              <div style={{ color: '#ff6b6b', marginTop: 12, fontWeight: 600 }}>
+                Hubo un error al enviar el mensaje. Por favor, inténtalo más tarde.
               </div>
             )}
           </form>
