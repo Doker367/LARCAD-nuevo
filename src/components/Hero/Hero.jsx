@@ -32,7 +32,7 @@ const Hero = () => {
 
                 <CTAButton
                     as={motion.a}
-                    href="#info-larcad"
+                    href="#que-es"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.8 }}

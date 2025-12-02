@@ -10,6 +10,7 @@ import Hardware from './components/Hardware/Hardware';
 import Software from './components/Software/Software';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
+import Chatbot from './components/Chatbot/Chatbot';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <Chatbot />
     </ThemeProvider>
   );
 }

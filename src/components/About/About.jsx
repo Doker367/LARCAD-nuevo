@@ -251,7 +251,7 @@ const About = () => {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     style={infoSectionStyle}
                 >
-                    <span style={infoTitleStyle}>¿Qué es?</span>
+                    <span id="que-es" style={infoTitleStyle}>¿Qué es?</span>
                     Centro de Datos y Cómputo de Alto Desempeño con capacidad para almacenar y procesar vastas cantidades de datos, garantizando un entorno de máxima seguridad, calidad y eficiencia diseñado para satisfacer las necesidades más exigentes de instituciones públicas y privadas.
                     <br /><br />
                     <span style={{ fontWeight: 700, color: '#def440', fontSize: '1.1rem' }}>Ofrece:</span>

@@ -101,31 +101,33 @@ export const MobileMenu = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  width: 70%;
-  max-width: 300px;
+  width: 75%;
+  max-width: 320px;
   height: 100vh;
-  background: rgba(16, 24, 32, 0.98);
-  ${theme.glassmorphism(0.1, 20)};
+  background: linear-gradient(180deg, #0a1220 0%, #101820 50%, #0d1628 100%);
   padding: 5rem 2rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  box-shadow: -5px 0 30px rgba(47, 49, 245, 0.3);
+  gap: 1.5rem;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8), 0 0 60px rgba(47, 49, 245, 0.15);
+  border-left: 1px solid rgba(47, 49, 245, 0.2);
 `;
 
 export const MobileNavLink = styled.a`
   color: ${theme.colors.white};
   text-decoration: none;
-  font-size: 1.3rem;
-  font-weight: 600;
-  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
   border-left: 3px solid transparent;
+  background: rgba(47, 49, 245, 0.05);
   transition: all ${theme.transition.fast};
 
   &:hover {
     color: ${theme.colors.accent};
     border-left-color: ${theme.colors.accent};
-    padding-left: 1.5rem;
-    text-shadow: ${theme.neonGlow(theme.colors.accent, 'light')};
+    background: rgba(47, 49, 245, 0.15);
+    padding-left: 1.3rem;
   }
 `;
