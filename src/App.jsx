@@ -11,6 +11,7 @@ import Software from './components/Software/Software';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import Chatbot from './components/Chatbot/Chatbot';
+import CookieConsent from './components/CookieConsent/CookieConsent';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       </main>
       <Footer />
       <Chatbot />
+      <CookieConsent />
     </ThemeProvider>
   );
 }

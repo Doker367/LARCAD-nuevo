@@ -79,6 +79,13 @@ export default defineConfig({
 
         // Montar la app de Express como middleware en el servidor de Vite
         server.middlewares.use(app);
+        server.middlewares.use((req, res, next) => {
+          res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; frame-src https://www.google.com https://maps.google.com;"
+          );
+          next();
+        });
       },
     },
   ],
