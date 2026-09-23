@@ -37,8 +37,6 @@ const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
     overflow-x: clip;
     max-width: 100%;
-    overflow-x: clip;
-    max-width: 100%;
     color-scheme: dark;
   }
 
@@ -51,6 +49,27 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   ::selection {
@@ -82,6 +101,14 @@ const GlobalStyles = createGlobalStyle`
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 24px;
+
+    @media (max-width: 768px) {
+      padding: 0 18px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0 14px;
+    }
   }
 
   /* Clases de utilidad para badges y tipografía */

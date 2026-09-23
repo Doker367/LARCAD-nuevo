@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { FiArrowUpRight } from 'react-icons/fi';
 import UNACHLogo from '../../img/UNACH.svg';
 import {
     HeaderContainer,
@@ -11,7 +10,6 @@ import {
     LogoSubtext,
     NavLinks,
     NavLink,
-    HeaderCTA,
     MobileMenuButton,
     MobileMenu,
     MobileNavLink,
@@ -73,7 +71,7 @@ const Header = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <img src={UNACHLogo} alt="UNACH" style={{ height: 38, width: 'auto' }} />
+                    <img src={UNACHLogo} alt="UNACH" style={{ height: 38, width: 'auto', maxWidth: '100%' }} />
                     <div>
                         <LogoText>LARCAD</LogoText>
                     </div>
@@ -93,17 +91,6 @@ const Header = () => {
                             {item.name}
                         </NavLink>
                     ))}
-                    
-                    <HeaderCTA
-                        href="#contacto"
-                        as={motion.a}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.4 }}
-                    >
-                        <span>Solicitar Acceso</span>
-                        <FiArrowUpRight size={15} />
-                    </HeaderCTA>
                 </NavLinks>
 
                 {/* Mobile Menu Button */}
@@ -134,19 +121,6 @@ const Header = () => {
                                 {item.name}
                             </MobileNavLink>
                         ))}
-                        <MobileNavLink
-                            href="#contacto"
-                            onClick={closeMobileMenu}
-                            style={{
-                                background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-                                color: '#FFFFFF',
-                                fontWeight: 600,
-                                textAlign: 'center',
-                                marginTop: '1rem',
-                            }}
-                        >
-                            Solicitar Acceso
-                        </MobileNavLink>
                     </MobileMenu>
                 )}
             </AnimatePresence>

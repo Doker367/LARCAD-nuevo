@@ -89,7 +89,7 @@ const Contact = () => {
           <InfoColumn>
             <InfoCard>
               <div className="institution-badge">
-                <img src={UNACHLogo} alt="UNACH" style={{ height: 42, width: 'auto' }} />
+                <img src={UNACHLogo} alt="UNACH" style={{ height: 42, width: 'auto', maxWidth: '100%' }} />
                 <div>
                   <h4>Universidad Autónoma de Chiapas</h4>
                   <span>Laboratorio Regional de Cómputo de Alto Desempeño</span>

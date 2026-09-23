@@ -81,9 +81,15 @@ export const FilterTab = styled.button`
 
 export const ServicesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 1.6rem;
   margin-bottom: 5rem;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    margin-bottom: 3.5rem;
+  }
 `;
 
 export const ServiceCard = styled.div`
@@ -107,7 +113,13 @@ export const ServiceCard = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
     margin-bottom: 1.2rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.5rem 1.3rem;
   }
 `;
 
@@ -184,7 +196,7 @@ export const TierHeader = styled.div`
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     font-weight: 800;
     color: #FFFFFF;
     margin-bottom: 0.6rem;
@@ -222,6 +234,10 @@ export const TierCard = styled.div`
     background: rgba(25, 38, 66, 0.8);
     transform: translateY(-2px);
   }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.8rem 1.4rem;
+  }
 `;
 
 export const TierBadge = styled.div`
@@ -245,6 +261,10 @@ export const TierTitle = styled.h3`
   color: #FFFFFF;
   margin-bottom: 0.8rem;
   font-family: 'Space Grotesk', sans-serif;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const TierDesc = styled.p`

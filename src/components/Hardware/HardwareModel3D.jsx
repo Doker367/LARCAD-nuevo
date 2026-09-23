@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Box, RoundedBox, Cylinder, ContactShadows } from '@react-three/drei';
+import useMediaQuery from '../../hooks/useMediaQuery';
 
 // ==========================================
 // SERVIDOR INDIVIDUAL 1U (Dell PowerEdge R650)
@@ -375,17 +376,22 @@ const DatacenterRoom = () => {
 const HardwareModel3D = () => {
     const [viewMode, setViewMode] = useState('perspective');
     const controlsRef = useRef();
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '480px' }}>
+        <div style={{ position: 'relative', width: '100%', height: isMobile ? '300px' : '480px' }}>
             <Canvas
                 camera={{ position: [0, 0.3, 4.8], fov: 46 }}
-                gl={{ antialias: true, toneMappingExposure: 1.15 }}
+                gl={{ antialias: false, toneMappingExposure: 1.15, powerPreference: 'high-performance' }}
+                dpr={[1, 1.5]}
+                frameloop={reduceMotion ? 'demand' : 'always'}
                 style={{
                     width: '100%',
                     height: '100%',
                     borderRadius: '18px',
                     background: 'transparent',
+                    touchAction: 'pan-y',
                 }}
             >
                 {/* Iluminación de Estudio Datacenter Profesional (Más realista) */}
@@ -424,7 +430,7 @@ const HardwareModel3D = () => {
                 {/* Controles de cámara con rotación automática suave */}
                 <OrbitControls
                     ref={controlsRef}
-                    enableZoom={true}
+                    enableZoom={!isMobile}
                     minDistance={3.2}
                     maxDistance={7.0}
                     autoRotate={false}

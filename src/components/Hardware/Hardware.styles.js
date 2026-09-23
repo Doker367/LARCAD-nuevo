@@ -98,6 +98,72 @@ export const Model3DWrapper = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(37, 99, 235, 0.12);
 `;
 
+export const ModelSlot = styled.div`
+  min-height: 480px;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    min-height: 260px;
+  }
+`;
+
+export const ModelPlaceholder = styled.div`
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #94A3B8;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.14) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  border-radius: 16px;
+
+  .placeholder-icon {
+    font-size: 2.2rem;
+    color: #38BDF8;
+    opacity: 0.8;
+  }
+
+  p {
+    max-width: 320px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    min-height: 260px;
+    padding: 1.5rem 1rem;
+  }
+`;
+
+export const LoadModelButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #93C5FD;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:active {
+    background: rgba(59, 130, 246, 0.22);
+    color: #FFFFFF;
+    border-color: rgba(59, 130, 246, 0.7);
+  }
+`;
+
 export const TelemetryBar = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -174,7 +240,14 @@ export const ModelInstruction = styled.div`
     svg {
       color: #38BDF8;
       font-size: 0.95rem;
+      flex-shrink: 0;
     }
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .badge-pue {
@@ -224,18 +297,31 @@ export const SpecCard = styled.div`
     box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px ${props => (props.$color ? `${props.$color}20` : 'transparent')};
     transform: translateY(-2px);
   }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.3rem 1.2rem;
+  }
 `;
 
 export const SpecHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   margin-bottom: 0.9rem;
 
   .title-group {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    .spec-tag {
+      white-space: normal;
+    }
   }
 
   .spec-tag {
@@ -331,6 +417,7 @@ export const CertCard = styled.div`
 
   img {
     height: 45px;
+    max-width: 100%;
     margin-bottom: 8px;
     object-fit: contain;
   }

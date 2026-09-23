@@ -139,6 +139,20 @@ export const InstitutionalHeroCard = styled.div`
     grid-template-columns: 1fr;
     padding: 2rem;
   }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 1.4rem 1.2rem;
+    gap: 1.6rem;
+    border-radius: 16px;
+
+    .content-left h3 {
+      font-size: 1.25rem;
+    }
+
+    .badges-right .badge-item {
+      padding: 0.9rem 1rem;
+    }
+  }
 `;
 
 export const OrganizationGrid = styled.div`
@@ -155,6 +169,11 @@ export const OrganizationGrid = styled.div`
 
 export const OrgCard = styled.div`
   padding: 2.2rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.5rem 1.3rem;
+  }
+
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -247,6 +266,11 @@ export const ResourcesGrid = styled.div`
 
 export const ResourceCard = styled.div`
   padding: 2rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.5rem 1.3rem;
+  }
+
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -378,7 +402,7 @@ export const FacilityCard = styled.div`
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     font-weight: 800;
     color: #FFFFFF;
     margin-bottom: 0.8rem;

@@ -55,11 +55,12 @@ export const SectionSubtitle = styled.p`
 
 export const SoftwareGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
   gap: 1.8rem;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 `;
 
@@ -79,12 +80,18 @@ export const SoftwareCard = styled.div`
     transform: translateY(-3px);
     box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
   }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 1.6rem 1.3rem;
+  }
 `;
 
 export const SoftwareCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   margin-bottom: 1.2rem;
 `;
 
@@ -119,6 +126,10 @@ export const SoftwareTitle = styled.h3`
   color: #FFFFFF;
   margin-bottom: 0.7rem;
   font-family: 'Space Grotesk', sans-serif;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const SoftwareDescription = styled.p`
@@ -161,6 +172,7 @@ export const SoftwareLink = styled.a`
 export const SoftwareVersionTag = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -179,5 +191,8 @@ export const SoftwareVersionTag = styled.div`
     background: rgba(56, 189, 248, 0.08);
     padding: 2px 6px;
     border-radius: 4px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 `;

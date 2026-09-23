@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Divider from "../Divider";
 import { motion } from 'framer-motion';
 import { FiArrowRight, FiCpu, FiHardDrive, FiServer, FiActivity } from 'react-icons/fi';
-import Background3D from './Background3D';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import {
     HeroContainer,
     HeroContent,
@@ -16,12 +16,17 @@ import {
     StatItem,
     StatNumber,
     StatLabel,
+    BackgroundFallback,
 } from './Hero.styles';
 
-const useMatrixEffect = (targetText, duration = 2000) => {
+const Background3D = lazy(() => import('./Background3D'));
+
+const useMatrixEffect = (targetText, duration = 2000, enabled = true) => {
     const [text, setText] = useState('');
     
     useEffect(() => {
+        if (!enabled) return;
+
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
         let iteration = 0;
         const maxIterations = targetText.length;
@@ -47,9 +52,9 @@ const useMatrixEffect = (targetText, duration = 2000) => {
         }, 50);
         
         return () => clearInterval(interval);
-    }, [targetText, duration]);
+    }, [targetText, duration, enabled]);
     
-    return text;
+    return enabled ? text : targetText;
 };
 
 const Hero = () => {
@@ -60,12 +65,24 @@ const Hero = () => {
         { icon: <FiActivity />, value: '99.9%', label: 'Disponibilidad', detail: 'SLA Operativo 24/7' },
     ];
 
-    const matrixTitle = useMatrixEffect("Laboratorio Regional de Cómputo de Alto Desempeño", 2500);
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+    const matrixTitle = useMatrixEffect(
+        "Laboratorio Regional de Cómputo de Alto Desempeño",
+        2500,
+        !isMobile && !reduceMotion
+    );
 
     return (
         <HeroContainer id="inicio">
             <Divider type="slant-right" color="#0B0F19" accentColor="#3B82F6" position="bottom" height="80px" />
-            <Background3D />
+            {isMobile || reduceMotion ? (
+                <BackgroundFallback />
+            ) : (
+                <Suspense fallback={<BackgroundFallback />}>
+                    <Background3D />
+                </Suspense>
+            )}
 
             <HeroContent>
                 <Title

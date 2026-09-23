@@ -65,17 +65,27 @@ export const BrandColumn = styled.div`
 export const PartnerLogos = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1.4rem;
 
   img {
     height: 48px;
     width: auto;
+    max-width: 100%;
     opacity: 0.9;
     filter: brightness(1.1);
     transition: opacity 0.2s;
 
     &:hover {
       opacity: 1;
+    }
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 1rem;
+
+    img {
+      height: 38px;
     }
   }
 `;

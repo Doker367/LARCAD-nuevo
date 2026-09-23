@@ -85,10 +85,16 @@ export const InfoCard = styled.div`
   .institution-badge {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 14px;
     padding-bottom: 1.6rem;
     margin-bottom: 1.8rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    img {
+      max-width: 100%;
+      flex-shrink: 0;
+    }
 
     h4 {
       font-size: 1.1rem;

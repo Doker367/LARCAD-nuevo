@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Suspense, lazy, useRef, useState } from 'react';
 import Divider from "../Divider";
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
     FiServer,
     FiHardDrive,
@@ -9,8 +9,9 @@ import {
     FiLayers,
     FiCpu,
     FiMove,
+    FiBox,
 } from 'react-icons/fi';
-import HardwareModel3D from './HardwareModel3D';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import {
     HardwareContainer,
     HardwareContent,
@@ -20,6 +21,9 @@ import {
     SectionSubtitle,
     ContentWrapper,
     Model3DWrapper,
+    ModelSlot,
+    ModelPlaceholder,
+    LoadModelButton,
     TelemetryBar,
     ModelInstruction,
     SpecsGrid,
@@ -33,7 +37,18 @@ import {
     StickyContainer,
 } from './Hardware.styles';
 
+const HardwareModel3D = lazy(() => import('./HardwareModel3D'));
+
 const Hardware = () => {
+    const modelRef = useRef(null);
+    const modelInView = useInView(modelRef, { once: true, margin: '200px' });
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+    const [loadModelManually, setLoadModelManually] = useState(false);
+
+    const autoLoad = !isMobile && !reduceMotion;
+    const mountModel3D = modelInView && (autoLoad || loadModelManually);
+
     const specs = [
         {
             label: 'Nodos de Cómputo CPU & GPU',
@@ -167,7 +182,7 @@ const Hardware = () => {
                                 }
                             ].map((cert, idx) => (
                                 <CertCard key={idx}>
-                                    <img src={cert.img} alt={cert.level} />
+                                    <img src={cert.img} alt={cert.level} loading="lazy" decoding="async" />
                                     <div className="cert-title">
                                         Disponibilidad {cert.disp}
                                     </div>
@@ -178,12 +193,36 @@ const Hardware = () => {
                             ))}
                         </CertificationsGrid>
 
-                        <HardwareModel3D />
+                        <ModelSlot ref={modelRef}>
+                            {mountModel3D ? (
+                                <Suspense
+                                    fallback={
+                                        <ModelPlaceholder>
+                                            <span className="placeholder-icon"><FiBox /></span>
+                                            <p>Cargando sala HPC en 3D…</p>
+                                        </ModelPlaceholder>
+                                    }
+                                >
+                                    <HardwareModel3D />
+                                </Suspense>
+                            ) : (
+                                <ModelPlaceholder>
+                                    <span className="placeholder-icon"><FiBox /></span>
+                                    <p>Sala HPC LARCAD con 3 racks en producción. Carga el modelo 3D interactivo cuando quieras.</p>
+                                    <LoadModelButton
+                                        type="button"
+                                        onClick={() => setLoadModelManually(true)}
+                                    >
+                                        <FiBox /> Ver modelo 3D
+                                    </LoadModelButton>
+                                </ModelPlaceholder>
+                            )}
+                        </ModelSlot>
 
                         <ModelInstruction>
                             <div className="instruction-left">
                                 <FiMove />
-                                <span>Arrastra con el mouse para inspeccionar los racks (Vista Frontal)</span>
+                                <span>Arrastra para inspeccionar los racks (Vista Frontal)</span>
                             </div>
                         </ModelInstruction>
                         </Model3DWrapper>

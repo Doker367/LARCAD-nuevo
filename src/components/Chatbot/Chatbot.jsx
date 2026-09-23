@@ -402,10 +402,12 @@ const ChatWindow = styled(motion.div)`
   z-index: 9998;
 
   @media (max-width: 640px) {
-    width: calc(100vw - 32px);
+    left: 16px;
     right: 16px;
-    bottom: 78px;
-    height: calc(100vh - 120px);
+    width: auto;
+    bottom: 84px;
+    height: calc(100vh - 130px);
+    height: calc(100dvh - 130px);
     max-height: 560px;
   }
 `;

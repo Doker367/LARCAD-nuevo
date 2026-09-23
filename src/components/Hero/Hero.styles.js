@@ -4,12 +4,35 @@ import { theme } from '../../styles/theme';
 export const HeroContainer = styled.section`
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   background: ${theme.colors.dark};
   padding: 7rem 1.5rem 4rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    padding: 6rem 1.25rem 3rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 5.5rem 1rem 2.5rem;
+  }
+`;
+
+export const BackgroundFallback = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(59, 130, 246, 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    ${theme.colors.dark};
+  background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px, 100% 100%;
 `;
 
 export const HeroContent = styled.div`
@@ -69,8 +92,14 @@ export const Title = styled.h1`
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 2.2rem;
+    font-size: 2rem;
     line-height: 1.25;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.65rem;
+    line-height: 1.3;
+    margin-bottom: 1.2rem;
   }
 `;
 

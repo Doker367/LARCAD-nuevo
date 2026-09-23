@@ -89,4 +89,18 @@ export default defineConfig({
       },
     },
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('three') || id.includes('@react-three')) return 'three-vendor';
+          if (id.includes('framer-motion') || id.includes('motion-dom') || id.includes('motion-utils')) return 'motion-vendor';
+          if (id.includes('styled-components')) return 'styled-vendor';
+          if (id.includes('react-icons')) return 'icons-vendor';
+          if (id.includes('react-dom') || id.includes('/react/')) return 'react-vendor';
+        },
+      },
+    },
+  },
 });

@@ -128,9 +128,15 @@ export const MobileMenuButton = styled.button`
   cursor: pointer;
   z-index: 1001;
   padding: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  -webkit-tap-highlight-color: transparent;
 
   @media (max-width: ${theme.breakpoints.desktop}) {
-    display: block;
+    display: flex;
   }
 `;
 
@@ -141,14 +147,22 @@ export const MobileMenu = styled.div`
   width: 80%;
   max-width: 320px;
   height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: rgba(11, 15, 25, 0.98);
   backdrop-filter: blur(20px);
-  padding: 5rem 1.8rem 2rem;
+  padding: 5rem 1.8rem calc(2rem + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
   border-left: 1px solid rgba(255, 255, 255, 0.08);
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    width: 88%;
+    padding: 4.5rem 1.4rem calc(1.5rem + env(safe-area-inset-bottom));
+  }
 `;
 
 export const MobileNavLink = styled.a`

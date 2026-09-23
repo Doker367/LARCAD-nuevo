@@ -122,9 +122,9 @@ const About = () => {
                 </InstitutionalHeroCard>
 
                 {/* Nuestra Organización */}
-                <SectionHeader style={{ marginTop: '5rem' }}>
+                <SectionHeader style={{ marginTop: 'clamp(2.5rem, 7vw, 5rem)' }}>
                     <SectionTag>Estructura Estratégica</SectionTag>
-                    <SectionTitle style={{ fontSize: '2.4rem' }}>Nuestra Organización</SectionTitle>
+                    <SectionTitle style={{ fontSize: 'clamp(1.6rem, 6vw, 2.4rem)' }}>Nuestra Organización</SectionTitle>
                 </SectionHeader>
 
                 <OrganizationGrid
@@ -186,9 +186,9 @@ const About = () => {
                 </OrganizationGrid>
 
                 {/* Recursos Clave */}
-                <SectionHeader style={{ marginTop: '5rem' }}>
+                <SectionHeader style={{ marginTop: 'clamp(2.5rem, 7vw, 5rem)' }}>
                     <SectionTag>Capacidades Técnicas</SectionTag>
-                    <SectionTitle style={{ fontSize: '2.4rem' }}>Recursos de Supercómputo</SectionTitle>
+                    <SectionTitle style={{ fontSize: 'clamp(1.6rem, 6vw, 2.4rem)' }}>Recursos de Supercómputo</SectionTitle>
                 </SectionHeader>
 
                 <ResourcesGrid

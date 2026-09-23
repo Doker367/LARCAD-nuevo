@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import theme from './styles/theme';
@@ -10,8 +10,9 @@ import Hardware from './components/Hardware/Hardware';
 import Software from './components/Software/Software';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
-import Chatbot from './components/Chatbot/Chatbot';
 import CookieConsent from './components/CookieConsent/CookieConsent';
+
+const Chatbot = lazy(() => import('./components/Chatbot/Chatbot'));
 
 function App() {
   return (
@@ -27,7 +28,9 @@ function App() {
         <Contact />
       </main>
       <Footer />
-      <Chatbot />
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
       <CookieConsent />
     </ThemeProvider>
   );

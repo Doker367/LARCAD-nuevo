@@ -132,7 +132,8 @@ const Background3D = () => {
         >
             <Canvas
                 camera={{ position: [0, 0, 7], fov: 60 }}
-                gl={{ antialias: true, alpha: true }}
+                gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+                dpr={[1, 1.5]}
                 style={{ width: '100%', height: '100%' }}
             >
                 <ambientLight intensity={0.6} />
