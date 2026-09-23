@@ -2,86 +2,148 @@ import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 
 export const FooterContainer = styled.footer`
-  background: ${theme.colors.dark};
-  border-top: 1px solid rgba(47, 49, 245, 0.2);
-  padding: 3rem 0 2rem;
+  background: #070B12;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 5rem 0 2.5rem;
   position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-      transparent,
-      ${theme.colors.primary},
-      ${theme.colors.accent},
-      ${theme.colors.primary},
-      transparent
-    );
-  }
 `;
 
 export const FooterContent = styled.div`
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 `;
 
-export const FooterTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(138, 141, 143, 0.2);
+export const FooterGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr 1fr 1.1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
 
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    flex-direction: column;
+  @media (max-width: ${theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 `;
 
-export const FooterBrand = styled.div`
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.accent});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  
-  span {
-    color: ${theme.colors.white};
-    -webkit-text-fill-color: ${theme.colors.white};
+export const BrandColumn = styled.div`
+  .brand-header {
+    margin-bottom: 1rem;
+  }
+
+  .brand-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    font-family: 'Space Grotesk', sans-serif;
+    display: block;
+    line-height: 1.1;
+  }
+
+  .brand-sub {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: ${theme.colors.accent};
+    text-transform: uppercase;
+  }
+
+  .brand-desc {
+    font-size: 0.9rem;
+    color: #94A3B8;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
   }
 `;
 
-export const SocialLinks = styled.div`
+export const PartnerLogos = styled.div`
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1.4rem;
+
+  img {
+    height: 48px;
+    width: auto;
+    opacity: 0.9;
+    filter: brightness(1.1);
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
-export const SocialIcon = styled.a`
-  font-size: 1.8rem;
-  color: ${theme.colors.gray};
-  transition: all ${theme.transition.fast};
-  cursor: pointer;
-  
-  &:hover {
-    color: ${theme.colors.accent};
-    filter: drop-shadow(${theme.neonGlow(theme.colors.accent, 'light')});
+export const FooterColumn = styled.div``;
+
+export const ColumnTitle = styled.h4`
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  font-family: 'Space Grotesk', sans-serif;
+`;
+
+export const FooterLinksList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+  li {
+    font-size: 0.9rem;
+    color: #94A3B8;
+
+    a {
+      color: #94A3B8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #38BDF8;
+      }
+    }
+  }
+
+  &.contact-list {
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+
+      .icon {
+        color: #38BDF8;
+        font-size: 1rem;
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+    }
   }
 `;
 
 export const FooterBottom = styled.div`
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 `;
 
 export const Copyright = styled.p`
-  font-size: 0.95rem;
-  color: ${theme.colors.gray};
-  font-weight: 300;
+  font-size: 0.85rem;
+  color: #64748B;
+  font-weight: 400;
 `;

@@ -1,30 +1,30 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
-
   :root {
-    /* Colores obligatorios */
-    --color-primary: #2f31f5;
-    --color-accent: #def440;
-    --color-secondary: #253ff7;
-    --color-gray: #8a8d8f;
-    --color-dark: #101820;
-    --color-white: #ffffff;
+    /* Sistema de colores profesional */
+    --color-primary: #3B82F6;
+    --color-primary-hover: #2563EB;
+    --color-secondary: #6366F1;
+    --color-accent: #06B6D4;
+    --color-unach-gold: #F59E0B;
+    --color-dark: #0B0F19;
+    --color-dark-secondary: #0F172A;
+    --color-gray: #94A3B8;
+    --color-gray-light: #CBD5E1;
+    --color-white: #FFFFFF;
     
-    /* Gradientes */
-    --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    --gradient-accent: linear-gradient(135deg, var(--color-accent), #c5d62f);
-    
-    /* Efectos neon */
-    --neon-blue: 0 0 5px var(--color-primary), 
-                 0 0 10px var(--color-primary),
-                 0 0 20px var(--color-primary),
-                 0 0 40px var(--color-primary);
-    
-    --neon-yellow: 0 0 5px var(--color-accent), 
-                   0 0 10px var(--color-accent),
-                   0 0 20px var(--color-accent);
+    /* Gradientes elegantes */
+    --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
+    --gradient-accent: linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%);
+    --gradient-gold: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+    --gradient-dark: linear-gradient(180deg, #0B0F19 0%, #0F172A 100%);
+
+    /* Sombras y elevaciones sutiles */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    --glow-primary: 0 0 25px rgba(59, 130, 246, 0.25);
   }
 
   * {
@@ -35,74 +35,73 @@ const GlobalStyles = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
+    max-width: 100%;
+    overflow-x: clip;
+    max-width: 100%;
+    color-scheme: dark;
   }
 
   body {
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--color-dark);
     color: var(--color-white);
-    overflow-x: hidden;
-    line-height: 1.6;
+    overflow-x: clip;
+    max-width: 100%;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: var(--color-primary);
-    color: var(--color-white);
+    background: rgba(59, 130, 246, 0.35);
+    color: #FFFFFF;
   }
 
-  /* Scrollbar personalizado */
+  /* Scrollbar refinado */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--color-dark);
+    background: #0B0F19;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 5px;
+    background: #1E293B;
+    border-radius: 4px;
+    border: 2px solid #0B0F19;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-secondary);
+    background: #334155;
   }
 
-  /* Utilidades */
+  /* Contenedores globales */
   .container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
   }
 
-  /* Animaciones globales */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
+  /* Clases de utilidad para badges y tipografía */
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px rgba(47, 49, 245, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(47, 49, 245, 0.8);
-    }
-  }
-
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    color: #93C5FD;
   }
 `;
 

@@ -1,318 +1,313 @@
-
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { FaServer, FaCloud, FaNetworkWired, FaShieldAlt, FaDatabase, FaCogs, FaEye, FaHdd, FaTools, FaLock, FaGlobe, FaSitemap, FaExchangeAlt, FaProjectDiagram, FaUserGraduate } from 'react-icons/fa';
+import React, { useState, useRef } from 'react';
+import Divider from "../Divider";
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import {
+    FiServer,
+    FiCloud,
+    FiEye,
+    FiHardDrive,
+    FiDatabase,
+    FiShield,
+    FiGlobe,
+    FiCheckCircle,
+    FiCpu,
+    FiAward,
+    FiLayers,
+    FiLock,
+    FiShare2,
+    FiActivity,
+} from 'react-icons/fi';
 import {
     ServicesContainer,
     ServicesContent,
+    SectionHeader,
+    SectionTag,
     SectionTitle,
+    SectionSubtitle,
+    FilterTabsContainer,
+    FilterTab,
     ServicesGrid,
     ServiceCard,
+    ServiceCategoryTag,
     IconWrapper,
     ServiceTitle,
     ServiceDescription,
+    TierServicesWrapper,
+    TierHeader,
+    TierCardsGrid,
+    TierCard,
+    TierBadge,
+    TierTitle,
+    TierDesc,
+    TierFeaturesList,
 } from './Services.styles';
 
 const Services = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: '-100px' });
+    const isInView = useInView(ref, { once: true, margin: '-80px' });
+    const [activeFilter, setActiveFilter] = useState('all');
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-            },
-        },
-    };
+    const categories = [
+        { id: 'all', label: 'Todos los Servicios' },
+        { id: 'hpc', label: 'Cómputo & HPC' },
+        { id: 'storage', label: 'Almacenamiento & Nube' },
+        { id: 'network', label: 'Redes & Conectividad' },
+        { id: 'security', label: 'Seguridad & Soporte' },
+    ];
 
-    const cardVariants = {
-        hidden: { opacity: 0, scale: 0.8 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 0.5,
-                ease: 'easeOut',
-            },
-        },
-    };
-
-
-    // Nueva estructura de servicios con iconos y animaciones
-    const detailedServices = [
+    const allServices = [
         {
-            icon: <FaServer />,
-            title: 'Colocación segura y confiable de equipos de TI (Housing)',
-            description: 'Infraestructura física con videovigilancia, ambiente controlado y acceso seguro para alojar tus equipos de tecnologías de información.',
+            category: 'hpc',
+            categoryName: 'Infraestructura TI',
+            icon: <FiServer />,
+            title: 'Colocación de Equipos (Housing)',
+            description: 'Alojamiento físico en racks climatizados, monitoreo de ambiente por videovigilancia y acceso biométrico controlado.',
         },
         {
-            icon: <FaCloud />,
-            title: 'Servicio de Hospedaje (Hosting)',
-            description: 'Albergue de sistemas, como páginas web y bases de datos, con alta disponibilidad y soporte profesional.',
+            category: 'hpc',
+            categoryName: 'Hospedaje Web & DB',
+            icon: <FiCloud />,
+            title: 'Hospedaje de Sistemas (Hosting)',
+            description: 'Albergue de aplicaciones web institucionales, APIs y bases de datos con alta disponibilidad y redundancia eléctrica.',
         },
         {
-            icon: <FaEye />,
+            category: 'security',
+            categoryName: 'Monitoreo 24/7',
+            icon: <FiEye />,
             title: 'Monitoreo de Infraestructura',
-            description: 'Software especializado para monitorear parámetros operativos de equipos físicos, virtuales y dispositivos de red en tiempo real.',
+            description: 'Supervisión en tiempo real de parámetros de telemetría: carga de CPU, consumo de memoria, IOPS y salud física de servidores.',
         },
         {
-            icon: <FaNetworkWired />,
-            title: 'Virtualización',
-            description: 'Ambiente de virtualización VMware (x86) para optimizar recursos y facilitar la gestión de sistemas.',
+            category: 'hpc',
+            categoryName: 'Virtualización',
+            icon: <FiLayers />,
+            title: 'Virtualización VMware Enterprise',
+            description: 'Entornos de virtualización x86 para optimizar recursos computacionales, creación de máquinas virtuales y snapshots automáticos.',
         },
         {
-            icon: <FaHdd />,
-            title: 'Almacenamiento',
-            description: 'Sistema de almacenamiento híbrido con NFS y SAN, seguro y escalable según tus necesidades.',
+            category: 'storage',
+            categoryName: 'Storage Masivo',
+            icon: <FiHardDrive />,
+            title: 'Almacenamiento Híbrido NFS/SAN',
+            description: 'Arquitectura de almacenamiento escalable con protocolos SAN y NFS, particionado para datos transaccionales y archivos masivos.',
         },
         {
-            icon: <FaDatabase />,
-            title: 'Respaldo',
-            description: 'Herramientas de respaldo con recuperación en el tiempo y protección automatizada de datos.',
+            category: 'storage',
+            categoryName: 'Protección de Datos',
+            icon: <FiDatabase />,
+            title: 'Respaldo Automatizado',
+            description: 'Políticas de copia de seguridad periódica con recuperación en cualquier punto del tiempo y protección ante pérdida de datos.',
         },
         {
-            icon: <FaTools />,
-            title: 'Administración',
-            description: 'Administración y configuración profesional de sistemas operativos y plataformas.',
+            category: 'security',
+            categoryName: 'Ciberseguridad',
+            icon: <FiLock />,
+            title: 'Seguridad y Protección de Datos',
+            description: 'Implementación de directivas de cifrado, auditoría de accesos y cumplimiento de normativas de privacidad institucional.',
         },
         {
-            icon: <FaLock />,
-            title: 'Seguridad informática y protección de datos',
-            description: 'Soluciones de seguridad integral y protección de datos, incluyendo firewall avanzado y sistemas de respaldo.',
+            category: 'storage',
+            categoryName: 'Nube Privada',
+            icon: <FiCloud />,
+            title: 'Almacenamiento en Nube Institucional',
+            description: 'Depósito seguro en los servidores locales del LARCAD con acceso autenticado vía SSH, SFTP o consola web desde cualquier punto.',
         },
         {
-            icon: <FaCloud />,
-            title: 'Almacenamiento de información en la nube',
-            description: 'Guarda archivos y datos en servidores remotos del LARCAD, accesibles desde cualquier lugar y con respaldo automatizado.',
-        },
-        {
-            icon: <FaGlobe />,
+            category: 'network',
+            categoryName: 'Telecomunicaciones',
+            icon: <FiGlobe />,
             title: 'Servicios de Telecomunicaciones',
-            description: 'Conectividad segura y confiable para instituciones públicas, privadas y académicas, con alta disponibilidad.',
+            description: 'Conectividad de grado científico para instituciones públicas, universitarias y centros de I+D con baja latencia.',
         },
         {
-            icon: <FaShieldAlt />,
-            title: 'Seguridad Perimetral',
-            description: 'Firewall avanzado, sistemas de detección de intrusos y protección perimetral de la red.',
+            category: 'security',
+            categoryName: 'Defensa de Red',
+            icon: <FiShield />,
+            title: 'Seguridad Perimetral & Firewall',
+            description: 'Inspección profunda de paquetes, sistemas de detección y prevención de intrusos (IDS/IPS) y filtrado perimetral.',
         },
         {
-            icon: <FaSitemap />,
-            title: 'Servidor de Nombres de Dominio (DNS)',
-            description: 'Gestión y administración de DNS para garantizar la disponibilidad y seguridad de tus dominios.',
+            category: 'network',
+            categoryName: 'Infraestructura DNS',
+            icon: <FiShare2 />,
+            title: 'Servidor de Nombres de Dominio',
+            description: 'Resolución recursiva y autoritativa de dominios con alta disponibilidad y protección contra ataques DDoS.',
         },
         {
-            icon: <FaExchangeAlt />,
-            title: 'Salida a internet redundante',
-            description: 'Enlaces únicos o redundantes para asegurar la continuidad y disponibilidad de la conexión a internet.',
+            category: 'network',
+            categoryName: 'Conectividad WAN',
+            icon: <FiActivity />,
+            title: 'Salida a Internet Redundante',
+            description: 'Múltiples enlaces de fibra óptica carrier-class con conmutación automática ante fallas para garantizar conectividad continua.',
         },
         {
-            icon: <FaNetworkWired />,
-            title: 'Interconexión por fibra óptica',
-            description: 'Interconexión local entre instituciones mediante fibra óptica de alta velocidad.',
+            category: 'network',
+            categoryName: 'Fibra Óptica',
+            icon: <FiActivity />,
+            title: 'Interconexión de Fibra Óptica',
+            description: 'Enlaces dedicados de alta capacidad interconectando las dependencias universitarias y centros científicos de la región.',
         },
         {
-            icon: <FaProjectDiagram />,
-            title: 'Alta disponibilidad y redundancia',
-            description: 'Infraestructura y enlaces diseñados para máxima disponibilidad y tolerancia a fallos.',
-        },
-        {
-            icon: <FaCogs />,
+            category: 'hpc',
+            categoryName: 'Supercómputo',
+            icon: <FiCpu />,
             title: 'Simulaciones de Alto Desempeño',
-            description: 'Simulación de cómputo de alto desempeño, modelado científico y soluciones industriales.',
+            description: 'Ejecución de software científico paralelo (CORSIKA, FLUKA, Quantum ESPRESSO, ORCA) en clúster multihilo con soporte SLURM.',
         },
         {
-            icon: <FaDatabase />,
-            title: 'Diseño e Implementación de Bases de Datos',
-            description: 'Soluciones robustas para el diseño, implementación y gestión de bases de datos.',
+            category: 'hpc',
+            categoryName: 'Gestión de Datos',
+            icon: <FiDatabase />,
+            title: 'Diseño de Bases de Datos',
+            description: 'Modelado, optimización y administración de motores relacionales y NoSQL de alto volumen de transacciones.',
         },
         {
-            icon: <FaUserGraduate />,
+            category: 'security',
+            categoryName: 'Academia & TIC',
+            icon: <FiAward />,
             title: 'Capacitación y Certificaciones',
-            description: 'Especialización en bases de datos, switches, ciberseguridad, diseño web y comercio electrónico.',
+            description: 'Cursos especializados para investigadores y estudiantes en HPC, redes, ciberseguridad, Linux y administración de servidores.',
         },
     ];
 
-    // containerVariants y cardVariants ya están definidos, eliminar duplicados
+    const filteredServices = activeFilter === 'all'
+        ? allServices
+        : allServices.filter(s => s.category === activeFilter);
 
     return (
         <ServicesContainer id="servicios" ref={ref}>
             <ServicesContent className="container">
-                <SectionTitle
-                    as={motion.h2}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    Nuestros Servicios
-                </SectionTitle>
+                <SectionHeader>
+                    <SectionTag>Catálogo de Soluciones</SectionTag>
+                    <SectionTitle>Nuestros Servicios</SectionTitle>
+                    <SectionSubtitle>
+                        Infraestructura especializada, almacenamiento masivo y conectividad para satisfacer los requerimientos más exigentes del sector científico e institucional.
+                    </SectionSubtitle>
+                </SectionHeader>
 
+                {/* Filtros de Categoría */}
+                <FilterTabsContainer>
+                    {categories.map((tab) => (
+                        <FilterTab
+                            key={tab.id}
+                            $active={activeFilter === tab.id}
+                            onClick={() => setActiveFilter(tab.id)}
+                        >
+                            {tab.label}
+                        </FilterTab>
+                    ))}
+                </FilterTabsContainer>
+
+                {/* Grid de Servicios */}
                 <ServicesGrid
                     as={motion.div}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={isInView ? 'visible' : 'hidden'}
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.5 }}
                 >
-                    {detailedServices.map((service, index) => (
-                        <ServiceCard
-                            key={index}
-                            as={motion.div}
-                            variants={cardVariants}
-                            whileHover={{
-                                scale: 1.06,
-                                rotateY: index % 2 === 0 ? 4 : -4,
-                                rotateX: index % 2 === 0 ? 2 : -2,
-                                boxShadow: index % 2 === 0
-                                    ? '0 12px 40px rgba(222,244,64,0.13)'
-                                    : '0 12px 40px rgba(47,49,245,0.13)',
-                                background: index % 2 === 0
-                                    ? 'linear-gradient(135deg, rgba(222,244,64,0.07) 0%, rgba(47,49,245,0.03) 100%)'
-                                    : 'linear-gradient(135deg, rgba(47,49,245,0.07) 0%, rgba(222,244,64,0.03) 100%)',
-                                transition: { duration: 0.3 },
-                            }}
-                            style={{
-                                alignItems: index % 2 === 0 ? 'flex-start' : 'flex-end',
-                                textAlign: index % 2 === 0 ? 'left' : 'right',
-                                background: index % 2 === 0
-                                    ? 'linear-gradient(135deg, rgba(222,244,64,0.04) 0%, rgba(47,49,245,0.01) 100%)'
-                                    : 'linear-gradient(135deg, rgba(47,49,245,0.04) 0%, rgba(222,244,64,0.01) 100%)',
-                                border: index % 2 === 0
-                                    ? '1.5px solid rgba(222,244,64,0.13)'
-                                    : '1.5px solid rgba(47,49,245,0.13)',
-                                minHeight: '260px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <IconWrapper>{service.icon}</IconWrapper>
-                            <ServiceTitle>{service.title}</ServiceTitle>
-                            <ServiceDescription>{service.description}</ServiceDescription>
-                        </ServiceCard>
-                    ))}
+                    <AnimatePresence>
+                        {filteredServices.map((service, index) => (
+                            <ServiceCard
+                                key={service.title}
+                                as={motion.div}
+                                layout
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.35, delay: index * 0.04 }}
+                            >
+                                <div className="card-top">
+                                    <IconWrapper>{service.icon}</IconWrapper>
+                                    <ServiceCategoryTag>{service.categoryName}</ServiceCategoryTag>
+                                </div>
+                                <ServiceTitle>{service.title}</ServiceTitle>
+                                <ServiceDescription>{service.description}</ServiceDescription>
+                            </ServiceCard>
+                        ))}
+                    </AnimatePresence>
                 </ServicesGrid>
 
-                {/* Bloques destacados para servicios administrados de respaldo y almacenamiento */}
-                <div
-                    style={{
-                        margin: '4rem auto 2.5rem auto',
-                        maxWidth: 1300,
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '2.5rem',
-                        alignItems: 'stretch',
-                    }}
-                    className="responsive-admin-services"
-                >
-                                    {/* Estilos responsivos para las tarjetas de servicios administrados */}
-                                    <style>{`
-                                        @media (max-width: 900px) {
-                                            .responsive-admin-services {
-                                                grid-template-columns: 1fr !important;
-                                                gap: 2rem !important;
-                                                max-width: 98vw !important;
-                                            }
-                                            .responsive-admin-services > div {
-                                                min-width: 0 !important;
-                                                max-width: 100% !important;
-                                                padding: 2rem 1.1rem !important;
-                                            }
-                                        }
-                                        @media (max-width: 600px) {
-                                            .responsive-admin-services {
-                                                margin: 2.2rem 0 1.5rem 0 !important;
-                                                gap: 1.2rem !important;
-                                            }
-                                            .responsive-admin-services > div {
-                                                font-size: 0.98rem !important;
-                                                padding: 1.2rem 0.5rem !important;
-                                            }
-                                        }
-                                    `}</style>
-                    {/* Tarjeta Servicio Administrado de Respaldo */}
-                    <div style={{
-                        background: '#101820',
-                        borderRadius: 18,
-                        boxShadow: '0 4px 32px rgba(47,49,245,0.13)',
-                        padding: '2.5rem 2.5rem',
-                        color: '#fff',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        fontSize: '1.08rem',
-                        minHeight: '100%',
-                    }}>
-                        <div style={{ position: 'absolute', top: 24, right: 24, fontSize: 44, color: '#def44022' }}><FaDatabase /></div>
-                        <h3 style={{ color: '#def440', fontWeight: 800, fontSize: '1.7rem', marginBottom: 12 }}> Servicio Administrado de  </h3>
-                        <h3 style={{ color: '#def440', fontWeight: 800, fontSize: '1.7rem', marginBottom: 12 }}>  Respaldo </h3>
+                {/* Servicios Administrados Premium */}
+                <TierServicesWrapper>
+                    <TierHeader>
+                        <span className="badge">Soluciones Críticas</span>
+                        <h2>Servicios Administrados Corporativos</h2>
+                        <p>
+                            Garantía de continuidad de negocio y resguardo de datos con acuerdos de nivel de servicio (SLA) certificados.
+                        </p>
+                    </TierHeader>
 
-                        <p style={{ marginBottom: 10, fontWeight: 500, lineHeight: 1.7 }}>
-                            Ofrecemos servicios especializados con tecnología de vanguardia para resguardar y mantener íntegra la información de nuestros clientes. Garantizamos la preparación ante cualquier falla o desastre, asegurando la continuidad operativa y del servicio.
-                        </p>
-                        <p style={{ marginBottom: 18, lineHeight: 1.7 }}>
-                            Nuestro servicio administrado de almacenamiento permite resguardar la información de forma segura en nuestras plataformas tecnológicas innovadoras, adaptándose a las necesidades del mercado.
-                        </p>
-                        <h4 style={{ color: '#def440', fontWeight: 700, margin: '1.2rem 0 0.5rem 0', fontSize: '1.15rem' }}>Servicio de Respaldo</h4>
-                        <b style={{ color: '#def440' }}>Características</b>
-                        <ul style={{ marginBottom: 10, marginTop: 4, paddingLeft: 18, lineHeight: 1.7 }}>
-                            <li>Repositorio de información o almacenamiento desde 1TB con tolerancia a fallas.</li>
-                            <li>Acceso seguro a la información.</li>
-                            <li>Servicios administrados 24/7.</li>
-                            <li>Monitoreo de salud de los equipos.</li>
-                        </ul>
-                        <b style={{ color: '#def440' }}>Funcionalidades</b>
-                        <ul style={{ marginTop: 4, paddingLeft: 18, lineHeight: 1.7 }}>
-                            <li>Resguardo de la información con disponibilidad del 99.99%.</li>
-                            <li>Tolerancia a fallas.</li>
-                            <li>Atención personalizada para soporte y mantenimiento.</li>
-                            <li>Acceso seguro a la información.</li>
-                            <li>Monitoreo del sistema (hardware, software y cambios).</li>
-                        </ul>
-                    </div>
-                    {/* Tarjeta Servicio Administrado de Almacenamiento */}
-                    <div style={{
-                        background: '#101820',
-                        borderRadius: 18,
-                        boxShadow: '0 4px 32px rgba(222,244,64,0.13)',
-                        padding: '2.5rem 2.5rem',
-                        color: '#fff',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        fontSize: '1.08rem',
-                        minHeight: '100%',
-                    }}>
-                        <div style={{ position: 'absolute', top: 24, right: 24, fontSize: 44, color: '#def44022' }}><FaHdd /></div>
-                        <h3 style={{ color: '#def440', fontWeight: 800, fontSize: '1.7rem', marginBottom: 12 }}>Servicio Administrado de Almacenamiento</h3>
-                        <p style={{ marginBottom: 10, fontWeight: 500, lineHeight: 1.7 }}>
-                            Brindamos soluciones avanzadas para resguardar y mantener la integridad de la información, utilizando tecnología de última generación. Nuestro objetivo es asegurar la continuidad operativa de nuestros clientes ante cualquier eventualidad.
-                        </p>
-                        <p style={{ marginBottom: 18, lineHeight: 1.7 }}>
-                            El servicio administrado de almacenamiento permite resguardar la información de manera segura y eficiente, adaptándose a las necesidades específicas de cada cliente.
-                        </p>
-                        <h4 style={{ color: '#def440', fontWeight: 700, margin: '1.2rem 0 0.5rem 0', fontSize: '1.15rem' }}>Servicio de Almacenamiento</h4>
-                        <b style={{ color: '#def440' }}>Características</b>
-                        <ul style={{ marginBottom: 10, marginTop: 4, paddingLeft: 18, lineHeight: 1.7 }}>
-                            <li>Almacenamiento de hasta 1TB con tolerancia a fallas.</li>
-                            <li>Acceso seguro y controlado a la información.</li>
-                            <li>Servicios administrados 24/7.</li>
-                            <li>Monitoreo constante de la salud de los equipos.</li>
-                        </ul>
-                        <b style={{ color: '#def440' }}>Funcionalidades</b>
-                        <ul style={{ marginTop: 4, paddingLeft: 18, lineHeight: 1.7 }}>
-                            <li>Disponibilidad de la información garantizada al 99.9% certificado.</li>
-                            <li>Tolerancia a fallas y recuperación ante desastres.</li>
-                            <li>Soporte y mantenimiento personalizado.</li>
-                            <li>Acceso seguro a la información.</li>
-                            <li>Monitoreo integral del sistema (hardware, software y cambios).</li>
-                        </ul>
-                    </div>
-                </div>
+                    <TierCardsGrid>
+                        {/* Tarjeta 1: Respaldo */}
+                        <TierCard
+                            as={motion.div}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <TierBadge $color="#3B82F6">SLA 99.99% • Tolerancia a Fallas</TierBadge>
+                            <TierTitle>Servicio Administrado de Respaldo</TierTitle>
+                            <TierDesc>
+                                Protección automatizada de información en repositorios con redundancia geográfica y soporte 24/7 para garantizar la recuperación inmediata ante cualquier contingencia.
+                            </TierDesc>
+
+                            <TierFeaturesList>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Repositorio seguro de datos a partir de 1 TB escalable</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Monitoreo constante de salud de discos y servidores</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Políticas de retención temporal e inmutabilidad contra ransomware</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Atención y soporte técnico especializado 24/7/365</span>
+                                </li>
+                            </TierFeaturesList>
+                        </TierCard>
+
+                        {/* Tarjeta 2: Almacenamiento */}
+                        <TierCard
+                            as={motion.div}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.15 }}
+                        >
+                            <TierBadge $color="#06B6D4">SLA 99.9% • Certificado</TierBadge>
+                            <TierTitle>Servicio Administrado de Almacenamiento</TierTitle>
+                            <TierDesc>
+                                Plataformas de almacenamiento de alta densidad para resguardar volúmenes masivos de datos bajo estándares de cifrado y contingencia ante desastres.
+                            </TierDesc>
+
+                            <TierFeaturesList>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Almacenamiento híbrido con acceso mediante protocolos estándar</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Acceso seguro, autenticado y cifrado en tránsito y reposo</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Recuperación ante desastres (Disaster Recovery Plan)</span>
+                                </li>
+                                <li>
+                                    <FiCheckCircle className="check" />
+                                    <span>Supervisión proactiva y reporte periódico de rendimiento</span>
+                                </li>
+                            </TierFeaturesList>
+                        </TierCard>
+                    </TierCardsGrid>
+                </TierServicesWrapper>
             </ServicesContent>
         </ServicesContainer>
     );

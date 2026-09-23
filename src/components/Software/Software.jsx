@@ -1,85 +1,102 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import Divider from "../Divider";
+import { motion } from 'framer-motion';
+import {
+    FiExternalLink,
+    FiBookOpen,
+    FiLayers,
+    FiCpu,
+    FiActivity,
+    FiWind,
+    FiCompass,
+} from 'react-icons/fi';
 import {
     SoftwareContainer,
     SoftwareContent,
+    SectionHeader,
+    SectionTag,
     SectionTitle,
+    SectionSubtitle,
     SoftwareGrid,
     SoftwareCard,
-    SoftwareLogo,
+    SoftwareCardHeader,
+    SoftwareCategoryBadge,
+    SoftwareIconWrap,
     SoftwareTitle,
     SoftwareDescription,
     SoftwareLinks,
     SoftwareLink,
-    SoftwareVersion,
+    SoftwareVersionTag,
 } from './Software.styles';
 
 const Software = () => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     const softwareList = [
         {
             name: 'CORSIKA',
-            logo: '🌌',
-            description: 'CORSIKA es un software de física para la simulación de extensas duchas de aire inducidas por rayos cósmicos de alta energía.',
+            category: 'Astropartículas',
+            icon: <FiActivity />,
+            description: 'Simulación Monte Carlo de extensas cascadas de aire (duchas atmosféricas) inducidas por rayos cósmicos de ultra-alta energía.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Documentación', url: '#' },
+                { label: 'Sitio Oficial', url: 'https://www.iap.kit.edu/corsika/' },
+                { label: 'Documentación', url: 'https://www.iap.kit.edu/corsika/70.php' },
             ],
-            version: '74005, 74005curved, 74005th, 74100curved',
+            version: 'v74005 / v74100curved',
         },
         {
             name: 'FLUKA',
-            logo: '⚛️',
-            description: 'FLUKA es una herramienta de propósito general para cálculos de transporte de partículas e interacciones con la materia, usada en múltiples aplicaciones científicas.',
+            category: 'Física Nuclear & Radiación',
+            icon: <FiLayers />,
+            description: 'Herramienta de propósito general para cálculo del transporte de partículas e interacciones radiación-materia, con aplicaciones en aceleradores, medicina y física espacial.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Manual', url: '#' },
-                { label: 'Cursos', url: '#' },
+                { label: 'Sitio Oficial', url: 'https://fluka.cern/' },
+                { label: 'Manual CERN', url: 'https://fluka.cern/documentation' },
             ],
-            version: '2011.2c',
+            version: 'v2011.2c',
         },
         {
             name: 'Geant4',
-            logo: '🔬',
-            description: 'Geant4 es un conjunto de herramientas para simular el paso de partículas a través de la materia, con aplicaciones en física de alta energía, medicina y más.',
+            category: 'Física de Altas Energías',
+            icon: <FiCpu />,
+            description: 'Toolkit desarrollado en CERN para simular el paso de partículas elementales a través de la materia con precisión geométrica y física avanzada.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Documentación', url: '#' },
+                { label: 'Sitio Oficial', url: 'https://geant4.web.cern.ch/' },
+                { label: 'Guía de Usuario', url: 'https://geant4-userdoc.web.cern.ch/' },
             ],
-            version: 'Geant4-10.1.0',
+            version: 'v10.1.0',
         },
         {
-            name: 'Hawc2',
-            logo: '🌀',
-            description: 'HAWC2 es un código aeroelástico destinado a calcular la respuesta de la turbina eólica en el dominio del tiempo.',
+            name: 'HAWC2',
+            category: 'Aeroelasticidad Eólica',
+            icon: <FiWind />,
+            description: 'Código aeroelástico para modelar respuestas no lineales en el dominio del tiempo de aerogeneradores y turbinas eólicas flotantes.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Documentación', url: '#' },
+                { label: 'Sitio DTU', url: 'https://www.hawc2.dk/' },
+                { label: 'Manual Técnico', url: 'https://www.hawc2.dk/Documentation' },
             ],
             version: 'ape-hawc2-02.02',
         },
         {
             name: 'ORCA',
-            logo: '🧪',
-            description: 'ORCA es un software de química cuántica que ofrece métodos avanzados de estructura electrónica, como teoría del funcional de densidad y métodos multireferencia.',
+            category: 'Química Cuántica',
+            icon: <FiCompass />,
+            description: 'Paquete de química cuántica ab-initio para cálculos de estructura electrónica, teoría del funcional de la densidad (DFT), espectroscopía y métodos acoplados.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Manual', url: '#' },
+                { label: 'Portal Oficial', url: 'https://www.faccts.de/orca/' },
+                { label: 'Documentación', url: 'https://www.orcasoftware.de/' },
             ],
-            version: '4.0.1.101',
+            version: 'v4.0.1.101',
         },
         {
-            name: 'QUANTUM ESPRESSO',
-            logo: '☕',
-            description: 'Quantum Espresso es un conjunto integrado de códigos de computadora de código abierto para cálculos de estructura electrónica y modelado de materiales a nanoescala.',
+            name: 'Quantum ESPRESSO',
+            category: 'Ciencia de Materiales',
+            icon: <FiLayers />,
+            description: 'Suite integrada de códigos abiertos para modelado a escala atómica de materiales, estructuras electrónicas periódicas y ondas planas pseudopotenciales.',
             links: [
-                { label: 'Sitio oficial', url: '#' },
-                { label: 'Documentación', url: '#' },
-                { label: 'Manual', url: '#' },
+                { label: 'Portal Oficial', url: 'https://www.quantum-espresso.org/' },
+                { label: 'Documentación', url: 'https://www.quantum-espresso.org/Doc/' },
             ],
-            version: 'qe-6.0',
+            version: 'QE-6.0',
         },
     ];
 
@@ -87,61 +104,71 @@ const Software = () => {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-            },
+            transition: { staggerChildren: 0.12 },
         },
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 50, scale: 0.95 },
+        hidden: { opacity: 0, y: 30 },
         visible: {
             opacity: 1,
             y: 0,
-            scale: 1,
-            transition: {
-                duration: 0.6,
-                ease: 'easeOut',
-            },
+            transition: { duration: 0.5, ease: 'easeOut' },
         },
     };
 
     return (
-        <SoftwareContainer id="software" ref={ref}>
+        <SoftwareContainer id="software">
+            <Divider type="step" color="#0B0F19" accentColor="#38BDF8" position="bottom" height="60px" />
             <SoftwareContent className="container">
-                <SectionTitle
-                    as={motion.h2}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    Software de Desarrollo
-                </SectionTitle>
+                <SectionHeader>
+                    <SectionTag>Software Científico</SectionTag>
+                    <SectionTitle>Herramientas y Entornos de Cálculo</SectionTitle>
+                    <SectionSubtitle>
+                        Paquetes optimizados e interconectados con las librerías paralelas MPI y aceleración CUDA del clúster.
+                    </SectionSubtitle>
+                </SectionHeader>
 
                 <SoftwareGrid
                     as={motion.div}
                     variants={containerVariants}
                     initial="hidden"
-                    animate={isInView ? 'visible' : 'hidden'}
+                    whileInView="visible"
+                    viewport={{ once: true }}
                 >
                     {softwareList.map((software, index) => (
                         <SoftwareCard
                             key={index}
                             as={motion.div}
                             variants={cardVariants}
-                            whileHover={{ scale: 1.03, y: -8 }}
                         >
-                            <SoftwareLogo>{software.logo}</SoftwareLogo>
+                            <SoftwareCardHeader>
+                                <SoftwareIconWrap>{software.icon}</SoftwareIconWrap>
+                                <SoftwareCategoryBadge>{software.category}</SoftwareCategoryBadge>
+                            </SoftwareCardHeader>
+
                             <SoftwareTitle>{software.name}</SoftwareTitle>
                             <SoftwareDescription>{software.description}</SoftwareDescription>
+
                             <SoftwareLinks>
                                 {software.links.map((link, i) => (
-                                    <SoftwareLink key={i} href={link.url}>
-                                        {link.label}
+                                    <SoftwareLink
+                                        key={i}
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <FiBookOpen size={13} />
+                                        <span>{link.label}</span>
+                                        <FiExternalLink size={11} />
                                     </SoftwareLink>
                                 ))}
                             </SoftwareLinks>
-                            <SoftwareVersion>Versión: {software.version}</SoftwareVersion>
+
+                            <SoftwareVersionTag>
+                                <span className="label">Compilación:</span>
+                                <span className="val">{software.version}</span>
+                            </SoftwareVersionTag>
                         </SoftwareCard>
                     ))}
                 </SoftwareGrid>

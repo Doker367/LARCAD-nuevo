@@ -1,95 +1,124 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Componente 3D de partículas animadas
-const AnimatedParticles = () => {
-    const points = useRef();
-    const particleCount = 2000;
+// Nodos de interconexión HPC
+const ComputeNetwork = () => {
+    const groupRef = useRef();
+    const nodeCount = 65;
 
-    // Generate random positions for particles
-    const [particlesPosition] = React.useState(() => {
-        const positions = new Float32Array(particleCount * 3);
-
-        /* eslint-disable security/detect-object-injection */
-        for (let i = 0; i < particleCount; i++) {
-            const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 10;
-            positions[i3 + 1] = (Math.random() - 0.5) * 10;
-            positions[i3 + 2] = (Math.random() - 0.5) * 10;
+    const [positions, connections] = useMemo(() => {
+        const pos = [];
+        for (let i = 0; i < nodeCount; i++) {
+            pos.push([
+                (Math.random() - 0.5) * 16,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 8 - 2,
+            ]);
         }
-        /* eslint-enable security/detect-object-injection */
 
-        return positions;
-    });
+        // Crear líneas entre nodos cercanos (simulando topología de clúster Infiniband)
+        const linePoints = [];
+        for (let i = 0; i < nodeCount; i++) {
+            for (let j = i + 1; j < nodeCount; j++) {
+                const dist = Math.hypot(
+                    pos[i][0] - pos[j][0],
+                    pos[i][1] - pos[j][1],
+                    pos[i][2] - pos[j][2]
+                );
+                if (dist < 4.2) {
+                    linePoints.push(
+                        new THREE.Vector3(...pos[i]),
+                        new THREE.Vector3(...pos[j])
+                    );
+                }
+            }
+        }
 
-    // Animation loop
+        return [pos, linePoints];
+    }, []);
+
+    const lineGeometry = useMemo(() => {
+        const geom = new THREE.BufferGeometry().setFromPoints(connections);
+        return geom;
+    }, [connections]);
+
     useFrame((state) => {
-        const time = state.clock.getElapsedTime();
-
-        if (points.current) {
-            points.current.rotation.x = time * 0.05;
-            points.current.rotation.y = time * 0.075;
+        const t = state.clock.getElapsedTime();
+        if (groupRef.current) {
+            groupRef.current.rotation.y = t * 0.025;
+            groupRef.current.rotation.x = Math.sin(t * 0.02) * 0.05;
         }
     });
 
     return (
-        <Points ref={points} positions={particlesPosition} stride={3} frustumCulled={false}>
-            <PointMaterial
-                transparent
-                color="#2f31f5"
-                size={0.02}
-                sizeAttenuation={true}
-                depthWrite={false}
-                opacity={0.8}
-            />
-        </Points>
+        <group ref={groupRef}>
+            {/* Líneas de enlace de datos */}
+            <lineSegments geometry={lineGeometry}>
+                <lineBasicMaterial color="#64748B" transparent opacity={0.12} />
+            </lineSegments>
+
+            {/* Nodos de cómputo */}
+            {positions.map((p, i) => (
+                <mesh key={i} position={p}>
+                    <sphereGeometry args={[i % 5 === 0 ? 0.06 : 0.03, 12, 12]} />
+                    <meshBasicMaterial
+                        color={i % 7 === 0 ? '#94A3B8' : i % 3 === 0 ? '#38BDF8' : '#60A5FA'}
+                        transparent
+                        opacity={0.4}
+                    />
+                </mesh>
+            ))}
+        </group>
     );
 };
 
-// Componente de malla ondulada
-const WaveMesh = () => {
-    const mesh = useRef();
+// Polvo de partículas sutiles de profundidad
+const AmbientDust = () => {
+    const points = useRef();
+    const count = 600;
+
+    const positions = useMemo(() => {
+        const pos = new Float32Array(count * 3);
+        for (let i = 0; i < count * 3; i += 3) {
+            pos[i] = (Math.random() - 0.5) * 20;
+            pos[i + 1] = (Math.random() - 0.5) * 14;
+            pos[i + 2] = (Math.random() - 0.5) * 10 - 2;
+        }
+        return pos;
+    }, []);
 
     useFrame((state) => {
-        const time = state.clock.getElapsedTime();
-
-        if (mesh.current) {
-            const positions = mesh.current.geometry.attributes.position;
-
-            for (let i = 0; i < positions.count; i++) {
-                const x = positions.getX(i);
-                const y = positions.getY(i);
-
-                const wave1 = Math.sin(x + time) * 0.1;
-                const wave2 = Math.sin(y + time * 0.5) * 0.1;
-
-                positions.setZ(i, wave1 + wave2);
-            }
-
-            positions.needsUpdate = true;
-            mesh.current.rotation.z = time * 0.1;
+        const t = state.clock.getElapsedTime();
+        if (points.current) {
+            points.current.rotation.y = t * 0.01;
         }
     });
 
     return (
-        <mesh ref={mesh} position={[0, 0, -3]}>
-            <planeGeometry args={[10, 10, 50, 50]} />
-            <meshStandardMaterial
-                color="#253ff7"
-                wireframe
+        <points ref={points}>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={count}
+                    array={positions}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <pointsMaterial
+                size={0.02}
+                color="#CBD5E1"
                 transparent
-                opacity={0.3}
+                opacity={0.2}
+                sizeAttenuation
             />
-        </mesh>
+        </points>
     );
 };
 
 const Background3D = () => {
     return (
-        <Canvas
-            camera={{ position: [0, 0, 5], fov: 75 }}
+        <div
             style={{
                 position: 'absolute',
                 top: 0,
@@ -97,15 +126,29 @@ const Background3D = () => {
                 width: '100%',
                 height: '100%',
                 zIndex: 1,
+                pointerEvents: 'none',
+                overflow: 'hidden',
             }}
         >
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} color="#def440" />
-            <pointLight position={[-10, -10, -10]} intensity={0.5} color="#2f31f5" />
-
-            <AnimatedParticles />
-            <WaveMesh />
-        </Canvas>
+            <Canvas
+                camera={{ position: [0, 0, 7], fov: 60 }}
+                gl={{ antialias: true, alpha: true }}
+                style={{ width: '100%', height: '100%' }}
+            >
+                <ambientLight intensity={0.6} />
+                <ComputeNetwork />
+                <AmbientDust />
+            </Canvas>
+            {/* Gradiente de atenuación para legibilidad perfecta */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                        'radial-gradient(circle at 50% 40%, rgba(11, 15, 25, 0.4) 0%, rgba(11, 15, 25, 0.95) 85%)',
+                }}
+            />
+        </div>
     );
 };
 

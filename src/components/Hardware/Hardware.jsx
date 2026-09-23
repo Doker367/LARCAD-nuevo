@@ -1,76 +1,105 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import Divider from "../Divider";
+import { motion } from 'framer-motion';
+import {
+    FiServer,
+    FiHardDrive,
+    FiDatabase,
+    FiShare2,
+    FiLayers,
+    FiCpu,
+    FiMove,
+} from 'react-icons/fi';
 import HardwareModel3D from './HardwareModel3D';
 import {
     HardwareContainer,
     HardwareContent,
+    SectionHeader,
+    SectionTag,
     SectionTitle,
+    SectionSubtitle,
     ContentWrapper,
     Model3DWrapper,
+    TelemetryBar,
+    ModelInstruction,
     SpecsGrid,
     SpecCard,
+    SpecHeader,
+    SpecIcon,
     SpecLabel,
-    SpecValue,
+    SpecList,
+    CertificationsGrid,
+    CertCard,
+    StickyContainer,
 } from './Hardware.styles';
-import { FaServer, FaHdd, FaDatabase, FaNetworkWired, FaLayerGroup, FaShieldAlt } from 'react-icons/fa';
 
 const Hardware = () => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-    // Estructura con íconos y mejor distribución visual
     const specs = [
         {
-            label: 'Servidores',
-            icon: <FaServer size={32} color="#def440" style={{ marginRight: 12 }} />,
-            value: [
-                '8 Servidores de procesamiento con 2.2 TB RAM DDR4',
-                'Intel Xeon Gold, 192 núcleos',
-                'Tarjeta gráfica Nvidia RTX A5000',
-                'Rendimiento equivalente a supercomputadora (HPC)',
+            label: 'Nodos de Cómputo CPU & GPU',
+            tag: '192 Cores • Dell PowerEdge',
+            color: '#3B82F6', // Tech Blue
+            icon: <FiCpu />,
+            items: [
+                '8 Servidores de procesamiento Dell PowerEdge R650 / R750 con 2.2 TB RAM DDR4 ECC',
+                'Procesadores Intel Xeon Gold multi-hilo de alto rendimiento',
+                'Aceleradores NVIDIA RTX A5000 para cómputo masivo paralelo y CUDA',
+                'Arquitectura balanceada y redundancia N+1 para simulación científica ininterrumpida',
             ],
         },
         {
-            label: 'Almacenamiento y Cómputo',
-            icon: <FaHdd size={32} color="#def440" style={{ marginRight: 12 }} />,
-            value: [
-                'Almacenamiento en disco SAS: 110 TB',
-                'Clúster de Cálculo: 192 núcleos de procesamiento, 128 TB de almacenamiento, 1.2 TB Memoria RAM',
-                'Soporte para simulaciones de alto desempeño',
+            label: 'Almacenamiento Scratch Ceph',
+            tag: '800 TB • Ceph Distributed FS',
+            color: '#06B6D4', // Cyan
+            icon: <FiDatabase />,
+            items: [
+                'Partición /scratch de 800 TB sobre sistema de archivos distribuido Ceph',
+                'Alta tasa de IOPS y concurrencia optimizada para simulación numérica pesada',
+                'Acceso directo POSIX mediante nodos dedicados de metadatos (MDS)',
             ],
         },
         {
-            label: 'Clúster de Almacenamiento (/home)',
-            icon: <FaDatabase size={32} color="#def440" style={{ marginRight: 12 }} />,
-            value: [
-                'Capacidad total: 128 TB',
-                'Almacenamiento con tolerancia a fallos',
+            label: 'Almacenamiento Home & Transaccional',
+            tag: '128 TB • SAS Enterprise RAID',
+            color: '#10B981', // Emerald
+            icon: <FiHardDrive />,
+            items: [
+                'Partición /home persistente de 128 TB en arreglos de discos SAS empresariales',
+                '110 TB adicionales en repositorios de respaldo y snapshots programados',
+                'Tolerancia a fallos con bahías Hot-Swap y controladores redundantes',
             ],
         },
         {
-            label: 'Clúster de Almacenamiento (/scratch)',
-            icon: <FaDatabase size={32} color="#def440" style={{ marginRight: 12, filter: 'brightness(0.8)' }} />,
-            value: [
-                'Capacidad total: 800 TB',
-                'File System: Ceph',
-                'Alta disponibilidad y rendimiento',
+            label: 'Infraestructura Datacenter & Racks',
+            tag: '32 Gabinetes 42U • Tier II',
+            color: '#8B5CF6', // Purple / Violet
+            icon: <FiLayers />,
+            items: [
+                '32 Racks de servidores de 42U acondicionados con confinamiento de pasillo frío',
+                'Subestación eléctrica propia respaldada por UPS modular y planta de emergencia',
+                'Sistemas de aire acondicionado de precisión con control estricto de humedad y temperatura',
             ],
         },
         {
-            label: 'Conectividad',
-            icon: <FaNetworkWired size={32} color="#def440" style={{ marginRight: 12 }} />,
-            value: [
-                'Switches de alto desempeño',
-                'Conectividad con red de fibra óptica',
-                'VPN seguras y enlaces redundantes',
+            label: 'Conectividad & Baja Latencia',
+            tag: '100 Gbps • InfiniBand & Fibra',
+            color: '#38BDF8', // Sky Blue
+            icon: <FiShare2 />,
+            items: [
+                'Switches de interconexión Mellanox InfiniBand para comunicación MPI inter-nodo',
+                'Red dorsal de fibra óptica carrier-class conectada a la Red Nacional de Investigación',
+                'Túneles VPN seguros con cifrado de grado militar para acceso remoto autorizado (SSH)',
             ],
         },
         {
-            label: 'Racks',
-            icon: <FaLayerGroup size={32} color="#def440" style={{ marginRight: 12 }} />,
-            value: [
-                '32 Racks de cómputo y almacenamiento',
-                'Videovigilancia y ambiente controlado',
+            label: 'Gestor de Cargas & Colas',
+            tag: 'SLURM HPC Workload Manager',
+            color: '#F59E0B', // UNACH Amber/Gold
+            icon: <FiServer />,
+            items: [
+                'Planificador de trabajos por lotes SLURM para asignación eficiente y equitativa de recursos',
+                'Monitoreo ambiental, térmico y de consumo por nodo en tiempo real',
+                'Módulos de entorno dinámicos (Environment Modules) para software científico',
             ],
         },
     ];
@@ -79,72 +108,113 @@ const Hardware = () => {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-            },
+            transition: { staggerChildren: 0.1 },
         },
     };
 
     const specVariants = {
-        hidden: { opacity: 0, y: 40, scale: 0.95 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
-            scale: 1,
-            transition: {
-                duration: 0.6,
-                ease: 'easeOut',
-            },
+            transition: { duration: 0.45, ease: 'easeOut' },
         },
     };
 
     return (
-        <HardwareContainer id="hardware" ref={ref}>
+        <HardwareContainer id="hardware">
+            <Divider type="slant-left" color="#0B0F19" accentColor="#6366F1" position="bottom" height="70px" />
             <HardwareContent className="container">
-                <SectionTitle
-                    as={motion.h2}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    Hardware de Elite
-                </SectionTitle>
+                <SectionHeader>
+                    <SectionTag>Arquitectura de Supercómputo</SectionTag>
+                    <SectionTitle>
+                        Hardware de <span className="highlight">Alto Rendimiento</span>
+                    </SectionTitle>
+                    <SectionSubtitle>
+                        Nodos de cálculo, almacenamiento distribuido de baja latencia y gabinetes industriales diseñados para soportar las cargas de trabajo científicas más demandantes.
+                    </SectionSubtitle>
+                </SectionHeader>
 
                 <ContentWrapper>
-                    <Model3DWrapper
-                        as={motion.div}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.8 }}
-                    >
+                    <StickyContainer>
+                        <Model3DWrapper
+                            as={motion.div}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                        {/* Certificaciones ICREA */}
+                        <CertificationsGrid>
+                            {[
+                                { 
+                                    level: 'Level I', 
+                                    disp: '95%', 
+                                    desc: 'Quality Assurance Data Center', 
+                                    img: 'https://icrea-international.org/wp-content/uploads/2021/07/Empresa-Level-I.png' 
+                                },
+                                { 
+                                    level: 'Level II', 
+                                    disp: '99%', 
+                                    desc: 'World Class Quality Assurance Data Center', 
+                                    img: 'https://icrea-international.org/wp-content/uploads/2021/07/Empresa-Level-II.png' 
+                                },
+                                { 
+                                    level: 'Nivel III', 
+                                    disp: '99.9%', 
+                                    desc: 'Safety World Class Quality', 
+                                    img: 'https://icrea-international.org/wp-content/uploads/2021/07/Empresa-Level-III.png' 
+                                }
+                            ].map((cert, idx) => (
+                                <CertCard key={idx}>
+                                    <img src={cert.img} alt={cert.level} />
+                                    <div className="cert-title">
+                                        Disponibilidad {cert.disp}
+                                    </div>
+                                    <div className="cert-desc">
+                                        {cert.level}<br/>{cert.desc}
+                                    </div>
+                                </CertCard>
+                            ))}
+                        </CertificationsGrid>
+
                         <HardwareModel3D />
-                    </Model3DWrapper>
+
+                        <ModelInstruction>
+                            <div className="instruction-left">
+                                <FiMove />
+                                <span>Arrastra con el mouse para inspeccionar los racks (Vista Frontal)</span>
+                            </div>
+                        </ModelInstruction>
+                        </Model3DWrapper>
+                    </StickyContainer>
 
                     <SpecsGrid
                         as={motion.div}
                         variants={containerVariants}
                         initial="hidden"
-                        animate={isInView ? 'visible' : 'hidden'}
+                        whileInView="visible"
+                        viewport={{ once: true }}
                     >
                         {specs.map((spec, index) => (
                             <SpecCard
                                 key={index}
                                 as={motion.div}
                                 variants={specVariants}
-                                whileHover={{ scale: 1.04, y: -6 }}
-                                style={{ alignItems: 'flex-start', minHeight: 120 }}
+                                $color={spec.color}
                             >
-                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-                                    {spec.icon}
-                                    <SpecLabel>{spec.label}</SpecLabel>
-                                </div>
-                                <SpecValue as="div" style={{ textAlign: 'left', width: '100%' }}>
-                                    <ul style={{ margin: 0, paddingLeft: '1.2em' }}>
-                                        {spec.value.map((item, i) => (
-                                            <li key={i}>{item}</li>
-                                        ))}
-                                    </ul>
-                                </SpecValue>
+                                <SpecHeader>
+                                    <div className="title-group">
+                                        <SpecIcon $color={spec.color}>{spec.icon}</SpecIcon>
+                                        <SpecLabel>{spec.label}</SpecLabel>
+                                    </div>
+                                    <span className="spec-tag">{spec.tag}</span>
+                                </SpecHeader>
+                                <SpecList $color={spec.color}>
+                                    {spec.items.map((item, i) => (
+                                        <li key={i}>{item}</li>
+                                    ))}
+                                </SpecList>
                             </SpecCard>
                         ))}
                     </SpecsGrid>
